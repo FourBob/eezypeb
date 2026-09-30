@@ -10,7 +10,7 @@
     "pebble-clay": "^1.0.4"
   },
   "pebble": {
-    "displayName": "Eezy",
+    "displayName": "eezy.nrw",
     "uuid": "3f0d6a8e-4c2b-4b7e-9d1a-7e5c2b9a1f40",
     "sdkVersion": "3",
     "enableMultiJS": true,
@@ -30,13 +30,18 @@
     "messageKeys": [
       "CMD",
       "STATUS",
-      "LOGGED_IN",
+      "CHECKED_IN",
+      "BC_SIZE",
+      "BC_OFFSET",
+      "BC_DATA",
+      "BC_DONE",
       "BASE_URL",
       "EMAIL",
       "PASSWORD",
       "LOGIN_PATH",
-      "CLOCK_IN_PATH",
-      "CLOCK_OUT_PATH",
+      "CHECKIN_PATH",
+      "CHECKOUT_PATH",
+      "TICKET_PATH",
       "TOKEN_FIELD"
     ],
     "resources": {
