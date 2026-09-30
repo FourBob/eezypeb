@@ -15,7 +15,14 @@ enum Command {
   CMD_STATUS = 4,
 };
 
-#define STATUS_BAR_HEIGHT 36
+/* Pebble Time 2 (emery, 200x228) bekommt größere Schrift und Statuszeile. */
+#if defined(PBL_PLATFORM_EMERY)
+  #define STATUS_BAR_HEIGHT 44
+  #define STATUS_FONT FONT_KEY_GOTHIC_24_BOLD
+#else
+  #define STATUS_BAR_HEIGHT 36
+  #define STATUS_FONT FONT_KEY_GOTHIC_18
+#endif
 #define RESPONSE_TIMEOUT_MS 25000
 #define BARCODE_MAX_MODULES 151      /* größter Aztec-Code */
 #define INBOX_SIZE 1024
@@ -119,7 +126,8 @@ static void barcode_layer_update(Layer *layer, GContext *ctx) {
     return;
   }
 
-  /* Ruhezone von 2 Modulen, ganzzahliger Skalierungsfaktor, zentriert. */
+  /* Ruhezone von 2 Modulen, ganzzahliger Skalierungsfaktor, zentriert.
+   * Auf emery (200 px) passen bis zu 96 Module mit 2 px/Modul. */
   uint16_t total = s_bc_size + 4;
   int16_t avail = bounds.size.w < bounds.size.h ? bounds.size.w : bounds.size.h;
   int16_t scale = avail / total;
@@ -315,10 +323,10 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
 
   s_status_layer = text_layer_create(GRect(0, 0, bounds.size.w, STATUS_BAR_HEIGHT));
-  text_layer_set_font(s_status_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
+  text_layer_set_font(s_status_layer, fonts_get_system_font(STATUS_FONT));
   text_layer_set_text_alignment(s_status_layer, GTextAlignmentCenter);
   text_layer_set_overflow_mode(s_status_layer, GTextOverflowModeTrailingEllipsis);
-  text_layer_set_background_color(s_status_layer, GColorBlack);
+  text_layer_set_background_color(s_status_layer, PBL_IF_COLOR_ELSE(GColorDarkGreen, GColorBlack));
   text_layer_set_text_color(s_status_layer, GColorWhite);
   text_layer_set_text(s_status_layer, s_status);
   layer_add_child(window_layer, text_layer_get_layer(s_status_layer));

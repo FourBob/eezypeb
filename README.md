@@ -51,10 +51,10 @@ als gepackte Bitmatrix (`BC_SIZE`, `BC_OFFSET`/`BC_DATA` in 200-Byte-Stücken, `
 2. **Aztec-Encoder.** `barcode.js` liefert bislang ein Testmuster. Sobald bekannt ist, in welcher
    Form das Backend den Barcode-Inhalt liefert (fertiges Bild, Base64-Payload für Aztec),
    wird `encode()` ersetzt. Ein reiner JS-Aztec-Encoder ist der geplante Weg.
-3. **Lesbarkeit auf der Uhr.** VDV-KA-Aztec-Codes haben oft 80 bis 100+ Module. Auf 144 px
-   Breite bleibt nur 1 px pro Modul, das ist für Scanner grenzwertig. Auf Pebble Time 2 /
-   Emery (200 px) geht mehr. Ob es reicht, zeigt erst ein Test mit einem Prüfgerät; der
-   offizielle Fallback ist das Handy (siehe Smartwatch-Regel).
+3. **Lesbarkeit auf der Uhr.** VDV-KA-Aztec-Codes haben oft 80 bis 100+ Module. Auf der
+   Pebble Time 2 (200 px) ergibt das 2 px pro Modul, bei mehr als 96 Modulen nur noch 1 px.
+   Ob ein Prüfgerät das liest, zeigt erst ein Test; der offizielle Fallback ist das Handy
+   (siehe Smartwatch-Regel).
 
 ## Endpunkte ermitteln
 
@@ -70,14 +70,23 @@ Automatisierte Zugriffe können dort ausgeschlossen sein; das ist vor dem Einsat
 - Die Apple-Watch-Variante der VRR App ist ein guter Hinweis darauf, dass das Backend einen
   „dünnen" Client mit Check-in per Knopfdruck bereits unterstützt.
 
+## Zielgerät: Pebble Time 2
+
+Das Projekt ist auf die **Pebble Time 2** (SDK-Plattform `emery`, 200 × 228 Pixel, Farbe)
+eingestellt (`targetPlatforms` in `package.json`). Das ist die beste Pebble für den Barcode:
+ein Aztec-Code mit bis zu 96 Modulen wird mit 2 Pixeln pro Modul gezeichnet. Weitere
+Plattformen (z. B. `diorite` für Core 2 Duo) lassen sich in `targetPlatforms` ergänzen; der
+Code nutzt überall die Display-Grenzen zur Laufzeit.
+
 ## Bauen
 
-Benötigt das Pebble/Rebble-SDK (`pebble` CLI, siehe <https://developer.rebble.io/>).
+Benötigt das Pebble-SDK von Core Devices (`pebble` CLI, Anleitung unter
+<https://developer.repebble.com/>; das SDK basiert auf dem Pebble SDK 4.3 mit Emery-Support).
 
 ```sh
 npm install                          # holt pebble-clay
 pebble build
-pebble install --phone <IP>          # oder: pebble install --emulator basalt
+pebble install --phone <IP>          # oder: pebble install --emulator emery
 pebble logs --phone <IP>             # console.log-Ausgaben des JS-Teils
 ```
 
