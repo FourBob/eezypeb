@@ -58,6 +58,8 @@ als gepackte Bitmatrix (`BC_SIZE`, `BC_OFFSET`/`BC_DATA` in 200-Byte-Stücken, `
 
 ## Endpunkte ermitteln
 
+Schritt-für-Schritt-Anleitung: [docs/MITSCHNITT.md](docs/MITSCHNITT.md).
+
 Nur mit dem eigenen Konto und unter Beachtung der Nutzungsbedingungen von VRR/eezy.nrw.
 Automatisierte Zugriffe können dort ausgeschlossen sein; das ist vor dem Einsatz zu prüfen.
 
